@@ -4,7 +4,7 @@
 
 <section
         class={`absolute w-100 w-dvw h-dvh w-100 bg-black z-10 top-0 left-0
-        translate-x-${mobileMenuIsOpened === false ? "full" : '0'} transition-transform
+        translate-x-${mobileMenuIsOpened === false ? "full" : "0"} transition-transform
         flex flex-col justify-start pt-48 gap-3 text-lg
         pb-20
         `}

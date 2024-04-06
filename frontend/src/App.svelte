@@ -1,5 +1,9 @@
 <script lang="ts">
     import {writable} from "svelte/store";
+
+    import Logo from '@/assets/viking_svg/LOGO.svg'
+    import ShipImage from '@/assets/viking_svg/SHIP.svg'
+
     import Button from "@/components/Button.svelte";
     import Input from "@/components/Input.svelte";
     import MainAppNavigation from "@/components/MainAppNavigation.svelte";
@@ -16,7 +20,7 @@
         step: 0
     });
 
-    let mobileMenuIsOpened: boolean = true;
+    let mobileMenuIsOpened: boolean = false;
 
 </script>
 
@@ -26,11 +30,11 @@
     <MainAppNavigation mobileMenuIsOpened={mobileMenuIsOpened}/>
 
     <header class="w-full flex items-center gap-8 relative z-20">
-        <div class="p-2 w-12 h-12 bg-indigo-500">
-            logo
+        <div class="relative aspect-square w-16">
+            <img src={Logo} alt="logo" class="absolute scale-150"/>
         </div>
 
-        <h2 class="text-3xl flex-grow text-left">JUHC JUHC</h2>
+        <h2 class="text-3xl flex-grow text-left">Natka.io</h2>
 
         <button on:click={()=>mobileMenuIsOpened= !mobileMenuIsOpened}>
             {#if mobileMenuIsOpened}
@@ -50,7 +54,9 @@
     </header>
 
     <section class="flex-grow w-full flex flex-col justify-center p-6">
-        <div class="w-full h-80 mb-4 bg-indigo-500 ">statek</div>
+        <div class="w-full h-80 mb-4 relative">
+            <img src={ShipImage} alt="ship" class="absolute scale-125"/>
+        </div>
 
         <h1 class="text-7xl font-bold">Embark</h1>
         <h2 class="text-2xl opacity-80">on a new journey</h2>
