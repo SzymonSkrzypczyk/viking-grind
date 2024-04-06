@@ -4,14 +4,16 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from dotenv import load_dotenv
 from openai import OpenAI
+from db import DBControl
 
 load_dotenv()
 app = FastAPI()
 OPEN_API_KEY = getenv("OPEN_AI_KEY")
 CHAT_BOT_BASE = "you are a chatbot for creating steps for a given query, please enumerate steps and separate" \
-                " them with new lines."
+                " them with new lines. The steps should not be too long."
 BASE_QUERY = "Create a steps for "
 client = OpenAI(api_key=OPEN_API_KEY)
+db = DBControl()
 
 
 class Prompt(BaseModel):
@@ -36,5 +38,6 @@ async def get_reply(prompt: Prompt):
 
     response_text = response.choices[0].message.content
     steps = response_text.split("\n")
+    db.add_query(prompt.text, steps)
 
     return {"steps": steps, "number_of_steps": len(steps), "created": datetime.now()}
