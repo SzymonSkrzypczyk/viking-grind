@@ -20,7 +20,19 @@
         step: 0
     });
 
-    let mobileMenuIsOpened: boolean = false;
+    let formCurrentStep: "text" | "currentState" | "step" = "text";
+
+    function proceedWithForm() {
+        if (formCurrentStep === "text") {
+            formCurrentStep = "currentState";
+        } else if (formCurrentStep === "currentState") {
+            formCurrentStep = "step";
+        } else {
+            alert("Form is submitted")
+        }
+    }
+
+    let mobileMenuIsOpened: boolean = false
 
 </script>
 
@@ -55,7 +67,7 @@
 
     <section class="flex-grow w-full flex flex-col justify-center p-6">
         <div class="w-full h-80 mb-4 relative">
-            <img src={ShipImage} alt="ship" class="absolute scale-125"/>
+            <img src={ShipImage} alt="ship" class="absolute"/>
         </div>
 
         <h1 class="text-7xl font-bold">Embark</h1>
@@ -69,8 +81,9 @@
         />
 
         <Button variant="indigo"
-                label="Proceed"
+                label={formCurrentStep === "step" ? "Submit" : "Continue"}
                 disabled={$apiRequest.text.length < 10}
+                on:click={proceedWithForm}
         />
 
         <span class="flex-grow"></span>
