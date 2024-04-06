@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      args:
+        OPEN_AI_KEY: ${OPEN_AI_KEY}
+    ports:
+      - "80:80"
+    restart: always
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "90:90"
+    restart: always
