@@ -1,54 +1,80 @@
 <script lang="ts">
-    import svelteLogo from './assets/svelte.svg'
-    import viteLogo from '/vite.svg'
-    import Counter from './lib/Counter.svelte'
+    import {writable} from "svelte/store";
+    import Button from "@/components/Button.svelte";
+    import Input from "@/components/Input.svelte";
+    import MainAppNavigation from "@/components/MainAppNavigation.svelte";
+
+    interface APIRequest {
+        text: string;
+        currentState: string
+        step: number
+    }
+
+    const apiRequest = writable<APIRequest>({
+        text: "",
+        currentState: "",
+        step: 0
+    });
+
+    let mobileMenuIsOpened: boolean = true;
+
 </script>
 
-<main>
-    <div class="flex justify-center">
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-            <img src={viteLogo} class="logo" alt="Vite Logo"/>
-        </a>
-        <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-            <img src={svelteLogo} class="logo svelte" alt="Svelte Logo"/>
-        </a>
-    </div>
+<!--NAVIGATION -->
 
-    <h1 class="text-amber-700">Vite + Svelte</h1>
+<main class="w-full flex-col justify-items-start flex gap-4">
+    <MainAppNavigation mobileMenuIsOpened={mobileMenuIsOpened}/>
 
-    <div class="card">
-        <Counter/>
-    </div>
+    <header class="w-full flex items-center gap-8 relative z-20">
+        <div class="p-2 w-12 h-12 bg-indigo-500">
+            logo
+        </div>
 
-    essawdisajdiusandifjoaisjfdiusajd
+        <h2 class="text-3xl flex-grow text-left">JUHC JUHC</h2>
 
-    <p>
-        Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the
-        official Svelte app framework powered by Vite!
-    </p>
+        <button on:click={()=>mobileMenuIsOpened= !mobileMenuIsOpened}>
+            {#if mobileMenuIsOpened}
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            {:else}
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            {/if}
+        </button>
+    </header>
 
-    <p class="read-the-docs">
-        Click on the Vite and Svelte logos to learn more
-    </p>
+    <section class="flex-grow w-full flex flex-col justify-center p-6">
+        <div class="w-full h-80 mb-4 bg-indigo-500 ">statek</div>
+
+        <h1 class="text-7xl font-bold">Embark</h1>
+        <h2 class="text-2xl opacity-80">on a new journey</h2>
+
+        <p class="my-4 text-lg opacity-80">What do you want to achieve?</p>
+
+        <Input placeholder="Describe your dreams..."
+               classes="mt-5 mb-2"
+               bind:value={$apiRequest.text}
+        />
+
+        <Button variant="indigo"
+                label="Proceed"
+                disabled={$apiRequest.text.length < 10}
+        />
+
+        <span class="flex-grow"></span>
+
+        <span>Powered by: <strong>grindset</strong></span>
+    </section>
 </main>
 
-<style>
-    .logo {
-        height: 6em;
-        padding: 1.5em;
-        will-change: filter;
-        transition: filter 300ms;
-    }
+<style lang="sass">
+  main
+    height: 98vh
 
-    .logo:hover {
-        filter: drop-shadow(0 0 2em #646cffaa);
-    }
-
-    .logo.svelte:hover {
-        filter: drop-shadow(0 0 2em #ff3e00aa);
-    }
-
-    .read-the-docs {
-        color: #888;
-    }
 </style>
