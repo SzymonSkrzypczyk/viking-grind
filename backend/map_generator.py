@@ -3,13 +3,13 @@ import io
 import time
 
 me = [
-    "Przygotuj się fizycznie i mentalnie.",
-    "Pozyskaj odpowiednie pozwolenia i zezwolenia w Nepalu.",
-    "Zorganizuj ekspedycję z doświadczonymi przewodnikami i porterami.",
-    "Rozpocznij trekking do bazy pod Everestem.",
-    "Przejdź przez szereg aklimatyzacji w bazie pod Everestem.",
-    "Dokonaj ostatecznego podejścia do szczytu, uwzględniając odpowiednie warunki pogodowe.",
-    "Wróć bezpiecznie do bazy i kontynuuj zejście."
+    "1. Przygotuj się fizycznie i mentalnie.",
+    "2. Pozyskaj odpowiednie pozwolenia i zezwolenia w Nepalu.",
+    "3. Zorganizuj ekspedycję z doświadczonymi przewodnikami i porterami.",
+    "4. Rozpocznij trekking do bazy pod Everestem.",
+    "5. Przejdź przez szereg aklimatyzacji w bazie pod Everestem.",
+    "6. Dokonaj ostatecznego podejścia do szczytu, uwzględniając odpowiednie warunki pogodowe.",
+    "7. Wróć bezpiecznie do bazy i kontynuuj zejście."
 ]
 
 fills = [
@@ -53,13 +53,16 @@ class MapGenerator:
         rect1, rect2 = self.calc_rects()
         clusters = (len(steps)+1)//2
         init_font = ImageFont.truetype("arial.ttf", 20)
-        increment = rect1[1][1]/clusters - margin * self.image.height
+        increment = (self.image.height - 2*margin*self.image.height) / clusters
+        print("H", self.image.height, "I", increment, "C", clusters)
         
+        x = 0
         for i in range(len(steps)):
             if (i+1) % 2:
-                box = (rect1[0][0], rect1[0][1]+i*increment)
+                box = (rect1[0][0], rect1[0][1]+x*increment)
             else:
-                box = (rect2[0][0], rect2[0][1]+(i-1)*increment)
+                box = (rect2[0][0], rect2[0][1]+(x)*increment)
+                x += 1
             text = self.split_text(steps[i], init_font)
             print(box)
             
