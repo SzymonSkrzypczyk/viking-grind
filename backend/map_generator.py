@@ -96,4 +96,5 @@ mg = MapGenerator("json_data", r"backend\temp\viking.jpg", 10)
 mg.generate_map()
 
 
+
     
