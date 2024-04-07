@@ -4,10 +4,12 @@
 
 <section
         class={`absolute w-100 w-dvw h-dvh w-100 bg-black z-10 top-0 left-0
-        translate-x-${mobileMenuIsOpened === false ? "full" : "0"} transition-transform
+        transition-transform
         flex flex-col justify-start pt-48 gap-3 text-lg
         pb-20
         `}
+
+        style={`transform: ${mobileMenuIsOpened ? 'translateX(0)' : 'translateX(100%)'}`}
 >
     <h2 class="text-3xl mb-12">Welcome, <strong>Robert</strong></h2>
 
