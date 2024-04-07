@@ -31,13 +31,7 @@ class MapGenerator:
         self.steps = steps
     
     def generate_map(self) -> io.BytesIO:
-        #self.image.show()
-        
-        #coords, font = self.calculate_coords(longest_word)
         self.draw_rectangles()
-        #for idx, coord in enumerate(coords):
-        #   I1 = ImageDraw.Draw(self.image)
-        #    I1.text(coord, me[idx], fill=(255, 255, 255), font=font)
 
         self.draw_steps(me)
         self.image.show()
@@ -54,18 +48,16 @@ class MapGenerator:
         clusters = (len(steps)+1)//2
         init_font = ImageFont.truetype("arial.ttf", 20)
         increment = (self.image.height - 2*margin*self.image.height) / clusters
-        print("H", self.image.height, "I", increment, "C", clusters)
         
         x = 0
         for i in range(len(steps)):
             if (i+1) % 2:
-                box = (rect1[0][0], rect1[0][1]+x*increment)
+                box = (100*margin+rect1[0][0], rect1[0][1]+x*increment)
             else:
-                box = (rect2[0][0], rect2[0][1]+(x)*increment)
+                box = (100*margin+rect2[0][0], rect2[0][1]+(x)*increment)
                 x += 1
-            text = self.split_text(steps[i], init_font)
-            print(box)
-            
+
+            text = self.split_text(steps[i], init_font, 0.35*self.image.width)
             self.pixmap.multiline_text(box, text, "#fff", font=init_font)
 
 
@@ -75,19 +67,23 @@ class MapGenerator:
         rect2 = [((1-ratio)*width, margin*width), (width*(1-margin), height-margin*width)]
         return (rect1, rect2)
     
+    
+    def split_text(self, text: str, font: ImageFont.ImageFont, max_width: int) -> str:
+        lines = []
+        words = text.split()
+        current_line = words[0]
 
-    def split_text(self, text: str, font: ImageFont.ImageFont) -> str:
-        print(font.getlength(text), 0.4*self.image.width)
-        tt = text.split(" ")
-        merged = text
-        left = " ".join(tt[:(len(tt))])
-        i = 0
-        while font.getlength(left) > 0.35*self.image.width:
-            left = tt[:(len(tt)-i)]
-            merged = " ".join(left + ["\n"] + tt[(len(tt)-i):])
-            left = " ".join(left)
-            i += 1
-        return merged
+        for word in words[1:]:
+            test_line = current_line + " " + word
+            width = font.getlength(test_line)
+            if width <= max_width:
+                current_line = test_line
+            else:
+                lines.append(current_line)
+                current_line = word
+
+        lines.append(current_line)
+        return "\n".join(lines)
 
     
 
